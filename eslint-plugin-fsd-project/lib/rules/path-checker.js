@@ -20,22 +20,38 @@ module.exports = {
       url: null, // URL to the documentation page for this rule
     },
     fixable: null, // Or `code` or `whitespace`
-    schema: [], // Add a schema if the rule has options
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          alias: {
+            type: 'string'
+          },
+          srcPath: {
+            type: 'string'
+          },
+        }
+      }
+    ], // Add a schema if the rule has options
     messages: {
       shouldBeRalative: 'В рамках одного слайса все пути должны быть относительными'
     }
   },
 
   create(context) {
+    const alias = context.options[0]?.alias || '';
+    const srcPath = context.options[0]?.srcPath || 'src';
+
     return {
       ImportDeclaration(node) {
-        // example @/entities/Article
-        const importTo = node.source.value;
+        // example entities/Article
+        const value = node.source.value
+        const importTo = alias ? value.replace(`${alias}/`, '') : value;
 
         // example /home/vic/study/bomberman/src/frontend/pages/ArticlesDetailPage/ui/ArticlesDetailPage/ArticlesDetailPage.tsx
         const fromFilename = context.getFilename();
 
-        if (shouldBeRelative(fromFilename, importTo)) {
+        if (shouldBeRelative(fromFilename, importTo, srcPath)) {
           context.report({node, messageId: 'shouldBeRalative'})
         }
       }
@@ -66,15 +82,15 @@ const layers = {
  * @param {string} to 
  * @returns {boolean}
  */
-function shouldBeRelative (from, to) {
+function shouldBeRelative (from, to, srcPath = 'src') {
   if (isPathRelative(to)) {
     return false
   }
 
-  // example @/entities/Article
+  // example entities/Article
   const toArray = to.split('/')
-  const toLayer = toArray[1]
-  const toSlice = toArray[2]
+  const toLayer = toArray[0] //entities
+  const toSlice = toArray[1] //Article
 
   if (!toLayer || !toSlice || !layers[toLayer]) {
     return false
@@ -82,13 +98,13 @@ function shouldBeRelative (from, to) {
 
   // example /home/vic/study/bomberman/src/frontend/pages/ArticlesDetailPage/ui/ArticlesDetailPage/ArticlesDetailPage.tsx
   const normalizedPath = path.toNamespacedPath(from)
-  const frontendFrom = normalizedPath.split('src/frontend')[1]
+  const srcFrom = normalizedPath.split(srcPath)[1]
 
-  if (!frontendFrom) {
+  if (!srcFrom) {
     return false
   }
 
-  const fromArray = frontendFrom.split('/')
+  const fromArray = srcFrom.split('/')
 
   const fromLayer = fromArray[1]
   const fromSlice = fromArray[2]
