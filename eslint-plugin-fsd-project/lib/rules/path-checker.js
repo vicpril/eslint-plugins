@@ -5,6 +5,7 @@
 "use strict";
 
 const path = require('path')
+const { isPathRelative } = require('../helpers')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -39,8 +40,7 @@ module.exports = {
   },
 
   create(context) {
-    const alias = context.options[0]?.alias || '';
-    const srcPath = context.options[0]?.srcPath || 'src';
+    const { alias = '', srcPath = 'src'} = context.options[0] || {}
 
     return {
       ImportDeclaration(node) {
@@ -58,15 +58,6 @@ module.exports = {
     };
   },
 };
-
-
-/**
- * @param {string} path 
- * @returns {boolean}
- */
-function isPathRelative (path) {
-  return path === '.' || path.startsWith('./') || path.startsWith('../')
-}
 
 const layers = {
   'entities': 'entities',
