@@ -40,24 +40,24 @@ ruleTester.run("public-api-imports", rule, {
       errors: [],
       options: aliasOptions,
     },
-    // {
-    //   filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\file.test.ts',
-    //   code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-    //   errors: [],
-    //   options: [{
-    //     alias: '@',
-    //     testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
-    //   }],
-    // },
-    // {
-    //   filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\StoreDecorator.tsx',
-    //   code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-    //   errors: [],
-    //   options: [{
-    //     alias: '@',
-    //     testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
-    //   }],
-    // }
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/entities/file.test.ts',
+      code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
+      errors: [],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+      }],
+    },
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/shared/config/storybook/StoreDecorator.tsx',
+      code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
+      errors: [],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+      }],
+    }
   ],
 
   invalid: [
@@ -66,23 +66,23 @@ ruleTester.run("public-api-imports", rule, {
       errors: [{ message: "Абсолютный импорт разрешен только из Public API (index.ts)"}],
       options: aliasOptions,
     },
-    // {
-    //   filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\StoreDecorator.tsx',
-    //   code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing/file.tsx'",
-    //   errors: [{message: 'Абсолютный импорт разрешен только из Public API (index.ts)'}],
-    //   options: [{
-    //     alias: '@',
-    //     testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
-    //   }],
-    // },
-    // {
-    //   filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\forbidden.ts',
-    //   code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-    //   errors: [{message: 'Тестовые данные необходимо импортировать из publicApi/testing.ts'}],
-    //   options: [{
-    //     alias: '@',
-    //     testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
-    //   }],
-    // }
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/entities/StoreDecorator.tsx',
+      code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing/file.tsx'",
+      errors: [{message: 'Абсолютный импорт разрешен только из Public API (index.ts)'}],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+      }],
+    },
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/entities/forbidden.ts',
+      code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
+      errors: [{message: 'Тестовые данные необходимо импортировать из publicApi/testing.ts'}],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+      }],
+    }
   ],
 });

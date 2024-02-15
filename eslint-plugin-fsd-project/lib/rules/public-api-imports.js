@@ -5,7 +5,8 @@
 "use strict";
 // const path = require('path')
 const { isPathRelative } = require('../helpers')
-// const micromatch = require("micromatch");
+const micromatch = require("micromatch");
+const path = require('path')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -35,14 +36,15 @@ module.exports = {
       }
     ], // Add a schema if the rule has options
     messages: {
-      shouldBePublicApi: 'Абсолютный импорт разрешен только из Public API (index.ts)'
+      shouldBePublicApi: 'Абсолютный импорт разрешен только из Public API (index.ts)',
+      shouldBeTestingApi: 'Тестовые данные необходимо импортировать из publicApi/testing.ts'
     }
   },
 
   create(context) {
     const { 
       alias = '', 
-      // testFilesPatterns = []
+      testFilesPatterns = []
     } = context.options[0] || {}
 
     const checkingLayers = {
@@ -73,27 +75,26 @@ module.exports = {
         const isImportNotFromPublicApi = segments.length > 2;
 
         // [entities, article, testing]
-        // const isTestingPublicApi = segments[2] === 'testing' && segments.length < 4
+        const isTestingPublicApi = segments[2] === 'testing' && segments.length < 4
 
-        // if(isImportNotFromPublicApi && !isTestingPublicApi) {
-        if(isImportNotFromPublicApi) {
+        if(isImportNotFromPublicApi && !isTestingPublicApi) {
           context.report({node, messageId: 'shouldBePublicApi'});
         }
 
-        // if(isTestingPublicApi) {
-        //   const currentFilePath = context.getFilename();
-        //   const normalizedPath = path.toNamespacedPath(currentFilePath);
-        //   // const srcFrom = normalizedPath.split(srcPath)[1]
+        if(isTestingPublicApi) {
+          const currentFilePath = context.getFilename();
+          const normalizedPath = path.toNamespacedPath(currentFilePath);
+          // const srcFrom = normalizedPath.split(srcPath)[1]
 
 
-        //   const isCurrentFileTesting = testFilesPatterns.some(
-        //       pattern => micromatch.isMatch(normalizedPath, pattern)
-        //   )
+          const isCurrentFileTesting = testFilesPatterns.some(
+              pattern => micromatch.isMatch(normalizedPath, pattern)
+          )
 
-        //   if(!isCurrentFileTesting) {
-        //     context.report(node, 'Тестовые данные необходимо импортировать из publicApi/testing.ts');
-        //   }
-        // }
+          if(!isCurrentFileTesting) {
+            context.report({node, messageId: 'shouldBeTestingApi'});
+          }
+        }
       }
     };
   },
