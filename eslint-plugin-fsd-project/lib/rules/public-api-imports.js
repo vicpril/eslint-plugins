@@ -21,7 +21,7 @@ module.exports = {
       recommended: false,
       url: null, // URL to the documentation page for this rule
     },
-    fixable: null, // Or `code` or `whitespace`
+    fixable: 'code', // Or `code` or `whitespace`
     schema: [
       {
         type: 'object',
@@ -65,8 +65,9 @@ module.exports = {
         }
       
         // [entities, article, model, types]
-        const segments = importTo.split('/')
+        const segments = importTo.split('/') || []
         const layer = segments[0] //entities
+        const slice = segments[1] 
 
         if(!checkingLayers[layer]) {
           return;
@@ -78,7 +79,14 @@ module.exports = {
         const isTestingPublicApi = segments[2] === 'testing' && segments.length < 4
 
         if(isImportNotFromPublicApi && !isTestingPublicApi) {
-          context.report({node, messageId: 'shouldBePublicApi'});
+          context.report({
+            node, 
+            messageId: 'shouldBePublicApi',
+            fix: fixer => {
+              return fixer.replaceText(node.source, `'${alias}/${layer}/${slice}'`)
+            }
+            
+          });
         }
 
         if(isTestingPublicApi) {
