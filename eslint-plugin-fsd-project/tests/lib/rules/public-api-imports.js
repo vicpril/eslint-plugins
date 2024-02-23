@@ -46,7 +46,7 @@ ruleTester.run("public-api-imports", rule, {
       errors: [],
       options: [{
         alias: '@',
-        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
       }],
     },
     {
@@ -55,7 +55,16 @@ ruleTester.run("public-api-imports", rule, {
       errors: [],
       options: [{
         alias: '@',
-        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
+      }],
+    },
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/pages/ProfilePage/ui/ProfilePage.test.tsx',
+      code: "import { profileUpdateReducer } from '@/features/ProfileEdit/testing'",
+      errors: [],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
       }],
     }
   ],
@@ -72,7 +81,7 @@ ruleTester.run("public-api-imports", rule, {
       errors: [{message: 'Абсолютный импорт разрешен только из Public API (index.ts)'}],
       options: [{
         alias: '@',
-        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
       }],
     },
     {
@@ -81,7 +90,7 @@ ruleTester.run("public-api-imports", rule, {
       errors: [{message: 'Тестовые данные необходимо импортировать из publicApi/testing.ts'}],
       options: [{
         alias: '@',
-        testFilesPatterns: ['**/*.test.ts', '**/*.test.ts', '**/StoreDecorator.tsx']
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
       }],
     }
   ],
