@@ -25,9 +25,27 @@ const aliasOptions = [
     alias: '@'
   }
 ]
+const aliasOptionsFront = [
+  {
+    alias: '@',
+    srcPath: 'src/frontend'
+  }
+]
 
 ruleTester.run("layer-imports", rule, {
   valid: [
+    {
+      filename: '/home/vic/_study/bomberman/src/game/server-side/routes.ts',
+      code: "import { Socket } from 'socket.io'",
+      errors: [],
+      options: aliasOptionsFront,
+    },
+    {
+      filename: '/home/vic/_study/bomberman/src/frontend/pages/ArticlesPage/ui/ArticlesPage/ArticlesPage.tsx',
+      code: "import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch'",
+      errors: [],
+      options: aliasOptionsFront,
+    },
     {
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\features\\Article',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/shared/Button.tsx'",

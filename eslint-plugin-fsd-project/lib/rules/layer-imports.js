@@ -4,7 +4,7 @@
  */
 "use strict";
 
-// const path = require('path');
+const path = require('path');
 const micromatch = require("micromatch");
 const { isPathRelative } = require('../helpers');
 
@@ -69,19 +69,19 @@ module.exports = {
     } = context.options[0] || {}
 
     const getCurrentFileLayer = (filePath) => {
-      const normalizedPath = filePath.replace(/[\\]+/g, "/")
-      // const normalizedPath = path.toNamespacedPath(currentFilePath)
-      const projectPath = normalizedPath.split(srcPath)[1]
-      const segments = projectPath.split('/')
+      const filePath1 = filePath.replace(/[\\]+/g, "/")
+      const normalizedPath = path.toNamespacedPath(filePath1)
+      const projectPath = normalizedPath?.split(srcPath)[1]
+      const segments = projectPath?.split('/')
 
-      return segments[1];
+      return segments?.[1];
 
     }
 
     const getCurrentImportLayer = (value) => {
       const importPath = alias ? value.replace(`${alias}/`, '') : value;
-      const segments = importPath.split('/')
-      return segments[0]
+      const segments = importPath?.split('/')
+      return segments?.[0]
     }
     // variables should be defined here
 
