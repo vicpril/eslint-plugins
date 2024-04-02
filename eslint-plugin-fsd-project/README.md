@@ -34,15 +34,95 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
     "rules": {
-        "fsd-project/rule-name": 2
+        "fsd-project/path-checker": [
+            "error", 
+            { "alias": "@", "srcPath": "src" }
+        ],
+        "fsd-project/public-api-imports": [
+            "error", 
+            {
+                "alias": "@",
+                "testFilesPatterns": ["**/*.test.ts", "**/*.test.tsx", "**/StoreDecorator.tsx"],
+            }
+        ],
+        "fsd-project/layer-imports": [
+            "error", {
+                "alias": "@",
+                "srcPath": "src",
+                "ignoreImportPatterns": ["**/StoreProvider", "**/testing"],
+            }
+        ],
     }
 }
 ```
 
 ## Rules
 
-<!-- begin auto-generated rules list -->
-TODO: Run eslint-doc-generator to generate the rules list.
-<!-- end auto-generated rules list -->
+### `path-checker`
+
+#### Описание
+
+Пути импорта в рамках одного слайса должны бить относительными.
+
+**Сообщение**
+*В рамках одного слайса все пути должны быть относительными*
+
+Исключением является слайс `shared`
+
+
+#### Аргументы
+
+`alias: string = ''` - строка-символ псевдонима путей 
+`srcPath: string = 'src'` - строка - относительный путь от root до папки с src
+
+---
+
+### public-api-imports
+
+#### Описание
+
+Абсолютные пути импорда должны быть из Public API
+
+**Сообщение**
+- *Абсолютный импорт разрешен только из Public API (index.ts)*
+- *Тестовые данные необходимо импортировать из publicApi/testing.ts*
+
+Исключением является слайс `shared`
+
+
+#### Аргументы
+
+`alias`: string = '' - строка-символ псевдонима путей 
+`testFilesPatterns`: string[] = [] - массив паттернов файлов для тестирования
+
+---
+
+### `layer-imports`
+
+#### Описание
+
+Проверяет корректный импорт между слоями в рамках концепции FSD:
+
+Правила импортов:
+
+**app** <-- `pages`, `widgets`, `features`, `shared`, `entities`
+**pages** <-- `widgets`, `features`, `shared`, `entities`
+**widgets** <-- `features`, `shared`, `entities`
+**features** <-- `shared`, `entities`
+**entities** <-- `shared`, `entities`
+**shared** <-- `shared`
+
+
+
+**Сообщение**
+*Слой может импортировать в себя только нижележащие слои (shared, entities, features, widgets, pages, app)*
+
+
+#### Аргументы
+
+`alias: string = ''` - строка-символ псевдонима путей 
+`srcPath: string = 'src'` - строка - относительный путь от root до папки с src
+`ignoreImportPatterns: string[] = []` - массив паттернов файлов для исключений
+
 
 
