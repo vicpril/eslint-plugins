@@ -73,6 +73,7 @@ Then configure the rules you want to use under the rules section.
 #### Аргументы
 
 `alias: string = ''` - строка-символ псевдонима путей 
+
 `srcPath: string = 'src'` - строка - относительный путь от root до папки с src
 
 ---
@@ -93,6 +94,7 @@ Then configure the rules you want to use under the rules section.
 #### Аргументы
 
 `alias`: string = '' - строка-символ псевдонима путей 
+
 `testFilesPatterns`: string[] = [] - массив паттернов файлов для тестирования
 
 ---
@@ -106,10 +108,15 @@ Then configure the rules you want to use under the rules section.
 Правила импортов:
 
 **app** <-- `pages`, `widgets`, `features`, `shared`, `entities`
+
 **pages** <-- `widgets`, `features`, `shared`, `entities`
+
 **widgets** <-- `features`, `shared`, `entities`
+
 **features** <-- `shared`, `entities`
+
 **entities** <-- `shared`, `entities`
+
 **shared** <-- `shared`
 
 
@@ -121,7 +128,9 @@ Then configure the rules you want to use under the rules section.
 #### Аргументы
 
 `alias: string = ''` - строка-символ псевдонима путей 
+
 `srcPath: string = 'src'` - строка - относительный путь от root до папки с src
+
 `ignoreImportPatterns: string[] = []` - массив паттернов файлов для исключений
 
 

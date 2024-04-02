@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-fsd-project",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Check imports for FSD architecture",
   "keywords": [
     "eslint",
