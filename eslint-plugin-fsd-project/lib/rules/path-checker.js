@@ -20,7 +20,7 @@ module.exports = {
       recommended: false,
       url: null, // URL to the documentation page for this rule
     },
-    fixable: null, // Or `code` or `whitespace`
+    fixable: 'code', // Or `code` or `whitespace`
     schema: [
       {
         type: 'object',
@@ -52,7 +52,28 @@ module.exports = {
         const fromFilename = context.getFilename();
 
         if (shouldBeRelative(fromFilename, importTo, srcPath)) {
-          context.report({node, messageId: 'shouldBeRalative'})
+          context.report({
+            node, 
+            messageId: 'shouldBeRalative',
+            fix: fixer => {
+              const normalizedPath = getNormalizedCurrentFilePath(fromFilename, srcPath) // /entities/Article/Article.tsx
+                .split('/')
+                .slice(0, -1)
+                .join('/')
+
+              let relativePath = path.relative(normalizedPath, `/${importTo}`)
+                .split('\\')
+                .join('/')
+
+              if (!relativePath.startsWith('.')) {
+                relativePath = './' + relativePath;
+              }
+
+
+              return fixer.replaceText(node.source, `'${relativePath}'`)
+            }
+          
+          })
         }
       }
     };
@@ -65,6 +86,12 @@ const layers = {
   'shared': 'shared',
   'pages': 'pages',
   'widgets': 'widgets',
+}
+
+function getNormalizedCurrentFilePath (currentFilePath, srcPath = 'src') {
+  const normalizedPath = path.toNamespacedPath(currentFilePath)
+  const srcFrom = normalizedPath.split(srcPath)[1]
+  return srcFrom.split('\\').join('/')
 }
 
 /**
@@ -88,8 +115,7 @@ function shouldBeRelative (from, to, srcPath = 'src') {
   }
 
   // example /home/vic/study/bomberman/src/frontend/pages/ArticlesDetailPage/ui/ArticlesDetailPage/ArticlesDetailPage.tsx
-  const normalizedPath = path.toNamespacedPath(from)
-  const srcFrom = normalizedPath.split(srcPath)[1]
+  const srcFrom = getNormalizedCurrentFilePath(from, srcPath)
 
   if (!srcFrom) {
     return false
