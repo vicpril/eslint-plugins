@@ -101,40 +101,45 @@ function getNormalizedCurrentFilePath (currentFilePath, srcPath = 'src') {
  * @returns {boolean}
  */
 function shouldBeRelative (from, to, srcPath = 'src') {
-  if (isPathRelative(to)) {
-    return false
+  try {
+    
+    if (isPathRelative(to)) {
+      return false
+    }
+  
+    // example entities/Article
+    const toArray = to.split('/')
+    const toLayer = toArray[0] //entities
+    const toSlice = toArray[1] //Article
+  
+    if (!toLayer || !toSlice || !layers[toLayer]) {
+      return false
+    }
+  
+    // example /home/vic/study/bomberman/src/frontend/pages/ArticlesDetailPage/ui/ArticlesDetailPage/ArticlesDetailPage.tsx
+    const srcFrom = getNormalizedCurrentFilePath(from, srcPath)
+  
+    if (!srcFrom) {
+      return false
+    }
+  
+    const fromArray = srcFrom.split('/')
+  
+    const fromLayer = fromArray[1]
+    const fromSlice = fromArray[2]
+  
+    if (!fromLayer || !fromSlice || !layers[fromLayer]) {
+      return false
+    }
+  
+    if (fromLayer === 'shared' && fromLayer === 'shared') {
+      return false
+    }
+  
+    return fromSlice === toSlice && fromLayer === toLayer
+  } catch (error) {
+    console.log(error)
   }
-
-  // example entities/Article
-  const toArray = to.split('/')
-  const toLayer = toArray[0] //entities
-  const toSlice = toArray[1] //Article
-
-  if (!toLayer || !toSlice || !layers[toLayer]) {
-    return false
-  }
-
-  // example /home/vic/study/bomberman/src/frontend/pages/ArticlesDetailPage/ui/ArticlesDetailPage/ArticlesDetailPage.tsx
-  const srcFrom = getNormalizedCurrentFilePath(from, srcPath)
-
-  if (!srcFrom) {
-    return false
-  }
-
-  const fromArray = srcFrom.split('/')
-
-  const fromLayer = fromArray[1]
-  const fromSlice = fromArray[2]
-
-  if (!fromLayer || !fromSlice || !layers[fromLayer]) {
-    return false
-  }
-
-  if (fromLayer === 'shared' && fromLayer === 'shared') {
-    return false
-  }
-
-  return fromSlice === toSlice && fromLayer === toLayer
 }
 
 
