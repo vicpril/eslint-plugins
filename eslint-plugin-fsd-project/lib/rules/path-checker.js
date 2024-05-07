@@ -138,7 +138,7 @@ function shouldBeRelative (from, to, srcPath = 'src') {
   
     return fromSlice === toSlice && fromLayer === toLayer
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 
