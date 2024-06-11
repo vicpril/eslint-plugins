@@ -93,6 +93,18 @@ ruleTester.run("layer-imports", rule, {
         }
       ],
     },
+    {
+      filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\features\\User\\components\\User.tsx',
+      code: "import { addCommentFormActions, addCommentFormReducer } from '@/features/Article'",
+      errors: [],
+      options: [
+        {
+          alias: '@',
+          ignoreImportPatterns: ['**/StoreProvider'],
+          customLayerRules: {'features': ['shared', 'entities', 'features'],}
+        }
+      ],
+    },
   ],
 
   invalid: [

@@ -133,5 +133,7 @@ Then configure the rules you want to use under the rules section.
 
 `ignoreImportPatterns: string[] = []` - массив паттернов файлов для исключений
 
+`customLayerRules: object = {}` - правила импоров слоев, которые перезапишут правила по-умолчанию
+
 
 

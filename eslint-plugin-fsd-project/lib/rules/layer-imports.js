@@ -34,6 +34,10 @@ module.exports = {
           },
           ignoreImportPatterns: {
             type: 'array',
+          },
+          // es: {'features': ['shared', 'entities']}
+          customLayerRules: {
+            type: 'object',
           }
         }
       }
@@ -44,6 +48,13 @@ module.exports = {
   },
 
   create(context) {
+    const {
+      alias = '', 
+      srcPath = 'src',
+      ignoreImportPatterns = [],
+      customLayerRules = {}
+    } = context.options[0] || {}
+
     const layersRules = {
       'app': ['pages', 'widgets', 'features', 'shared', 'entities'],
       'pages': ['widgets', 'features', 'shared', 'entities'],
@@ -51,6 +62,7 @@ module.exports = {
       'features': ['shared', 'entities'],
       'entities': ['shared', 'entities'],
       'shared': ['shared'],
+      ...customLayerRules
     }
 
     const availableImportLayers = {
@@ -61,12 +73,6 @@ module.exports = {
       'pages': 'pages',
       'widgets': 'widgets',
     }
-
-    const {
-      alias = '', 
-      srcPath = 'src',
-      ignoreImportPatterns = []
-    } = context.options[0] || {}
 
     const getCurrentFileLayer = (filePath) => {
       const filePath1 = filePath.replace(/[\\]+/g, "/")
