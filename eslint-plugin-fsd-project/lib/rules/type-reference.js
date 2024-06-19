@@ -98,25 +98,41 @@ module.exports = {
     const currentFilePath = context.getFilename()
     const {fileLayer, fileSlice} = getCurrentFileLayerAndSlice(currentFilePath)
 
-
+    const ignoreIdentifiers = new Set(ignoreModules)
+    
+    const nodesForCheck = new Map() // {node, firstChain}
+    
     return {
+      ImportDeclaration(node) {
+        if (!availableLayers[fileLayer]) return;
+        if (node.importKind === "type") {
+          node.specifiers?.forEach(specifier => {
+            if(specifier.local.name) ignoreIdentifiers.add(specifier.local.name)
+          }
+        )}
+      },
+      TSEnumDeclaration(node) {
+        if (!availableLayers[fileLayer]) return;
+        ignoreIdentifiers.add(node.id.name)
+      },
       TSTypeReference(node) {
-        if (!availableLayers[fileLayer]) {
-          return;
-        }
+        if (!availableLayers[fileLayer]) return;
 
         if (idChainedTypeReferenceNode(node)) {
           const firstChain = getTypeReferenceFirstChain(node)
 
-          if (ignoreModules.includes(firstChain)) {
-            return;
-          }
-          
           if (firstChain !== fileSlice) {
+            nodesForCheck.set(node, firstChain)
+          }
+        }
+      },
+      'Program:exit'() {
+        for (const [node, firstChain] of nodesForCheck.entries()) {
+          if (!ignoreIdentifiers.has(firstChain)) {
             context.report({node, messageId: 'shouldBeCorrectLayerForType'})
           }
         }
-      }
+      },
 
     };
   },
