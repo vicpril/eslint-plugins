@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-fsd-project",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Check imports for FSD architecture",
   "keywords": [
     "eslint",
@@ -18,6 +18,8 @@
     "update:eslint-docs": "eslint-doc-generator"
   },
   "dependencies": {
+    "@typescript-eslint/parser": "^7.13.1",
+    "@typescript-eslint/rule-tester": "^7.13.1",
     "micromatch": "^4.0.5",
     "requireindex": "^1.2.0"
   },

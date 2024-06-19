@@ -135,5 +135,21 @@ Then configure the rules you want to use under the rules section.
 
 `customLayerRules: object = {}` - правила импоров слоев, которые перезапишут правила по-умолчанию
 
+---
 
+### type-reference
+
+#### Описание
+
+Проверяет использование глобальных типов в рамках FSD
+
+**Сообщение**
+- *Запрещено использовать глобальные типы из других слайсов (entities, features, widgets, pages, app)*
+
+
+#### Аргументы
+
+`alias`: string = '' - строка-символ псевдонима путей 
+
+`ignoreModules: string[] = []` - массив паттернов деклараций модулей для исключений. Например `["Shared"]`
 
