@@ -5,6 +5,7 @@
 "use strict";
 
 const path = require('path');
+const { getNormalPath } = require('../helpers');
 // const { ESLintUtils, TSTypeReference } = require('@typescript-eslint/utils')
 
 //------------------------------------------------------------------------------
@@ -67,8 +68,7 @@ module.exports = {
     // any helper functions should go here or else delete this section
 
     const getCurrentFileLayerAndSlice = (filePath) => {
-      const filePath1 = filePath.replace(/[\\]+/g, "/")
-      const normalizedPath = path.toNamespacedPath(filePath1)
+      const normalizedPath = getNormalPath(filePath)
       const projectPath = normalizedPath?.split(srcPath)[1]
       const segments = projectPath?.split('/')
       return {

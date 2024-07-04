@@ -6,7 +6,7 @@
 
 const path = require('path');
 const micromatch = require("micromatch");
-const { isPathRelative } = require('../helpers');
+const { isPathRelative, getNormalPath } = require('../helpers');
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -75,8 +75,7 @@ module.exports = {
     }
 
     const getCurrentFileLayer = (filePath) => {
-      const filePath1 = filePath.replace(/[\\]+/g, "/")
-      const normalizedPath = path.toNamespacedPath(filePath1)
+      const normalizedPath = getNormalPath(filePath)
       const projectPath = normalizedPath?.split(srcPath)[1]
       const segments = projectPath?.split('/')
 
@@ -103,7 +102,7 @@ module.exports = {
 
     return {
       ImportDeclaration(node) {
-        const currentFilePath = context.getFilename()
+        const currentFilePath = context.filename
         const fileLayer = getCurrentFileLayer(currentFilePath)
 
         const importPath = node.source.value

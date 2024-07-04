@@ -4,7 +4,7 @@
  */
 "use strict";
 // const path = require('path')
-const { isPathRelative } = require('../helpers')
+const { isPathRelative, getNormalPath } = require('../helpers')
 const micromatch = require("micromatch");
 const path = require('path')
 
@@ -91,7 +91,7 @@ module.exports = {
 
         if(isTestingPublicApi) {
           const currentFilePath = context.getFilename();
-          const normalizedPath = path.toNamespacedPath(currentFilePath);
+          const normalizedPath = getNormalPath(currentFilePath);
           // const srcFrom = normalizedPath.split(srcPath)[1]
 
 

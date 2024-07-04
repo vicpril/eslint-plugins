@@ -109,6 +109,12 @@ ruleTester.run("layer-imports", rule, {
 
   invalid: [
     {
+      filename: 'F:\\test\\src\\shared\\api\\old\\apiWrapper.ts',
+      code: 'import { useAuthStore } from "@/entities/Auth";',
+      errors: [{ message: "Слой может импортировать в себя только нижележащие слои (shared, entities, features, widgets, pages, app)"}],
+      options: aliasOptions,
+    },
+    {
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\providers',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/features/Articl'",
       errors: [{ message: "Слой может импортировать в себя только нижележащие слои (shared, entities, features, widgets, pages, app)"}],

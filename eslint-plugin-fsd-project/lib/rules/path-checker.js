@@ -5,7 +5,7 @@
 "use strict";
 
 const path = require('path')
-const { isPathRelative } = require('../helpers')
+const { isPathRelative, getNormalPath } = require('../helpers')
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -89,7 +89,8 @@ const layers = {
 }
 
 function getNormalizedCurrentFilePath (currentFilePath, srcPath = 'src') {
-  const normalizedPath = path.toNamespacedPath(currentFilePath)
+  // const normalizedPath = path.toNamespacedPath(currentFilePath)
+  const normalizedPath = getNormalPath(currentFilePath)
   const srcFrom = normalizedPath.split(srcPath)[1]
   return srcFrom.split('\\').join('/')
 }

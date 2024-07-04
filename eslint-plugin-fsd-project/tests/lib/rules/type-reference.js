@@ -87,6 +87,12 @@ ruleTester.run("type-reference", rule, {
       errors: [],
       options: options,
     },
+    {
+      filename: 'F:\\home\\vic\\thesis\\BILET\\BVB-CRM_FRONT\\src\\features\\ListView\\components\\ListView.vue',
+      code: codeWithDeclaredEnums,
+      errors: [],
+      options: options,
+    },
   ],
 
   invalid: [
@@ -97,7 +103,7 @@ ruleTester.run("type-reference", rule, {
       options: options,
     },
     {
-      filename: '/home/vic/thesis/BILET/BVB-CRM_FRONT/src/features/DetailsView/components/DetailsView.vue',
+      filename: 'F:\\home\\vic\\thesis\\BILET\\BVB-CRM_FRONT\\src\\features\\DetailsView\\components\\DetailsView.vue',
       code: "type ColumnBoolean = Shared.Schema.Table.BaseColumn",
       errors: [{message: "Запрещено использовать глобальные типы из других слайсов (entities, features, widgets, pages, app)"}],
       options: [],

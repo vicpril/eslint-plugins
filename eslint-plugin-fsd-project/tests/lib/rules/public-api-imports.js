@@ -66,6 +66,15 @@ ruleTester.run("public-api-imports", rule, {
         alias: '@',
         testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
       }],
+    },
+    {
+      filename: 'F:\\home\\vic\\_study\\bomberman\\src\\frontend\\pages\\ProfilePage\\ui\\ProfilePage.test.tsx',
+      code: "import { profileUpdateReducer } from '@/features/ProfileEdit/testing'",
+      errors: [],
+      options: [{
+        alias: '@',
+        testFilesPatterns: ['**/*.test.ts', '**/*.test.tsx', '**/StoreDecorator.tsx']
+      }],
     }
   ],
 
